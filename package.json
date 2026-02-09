@@ -1,6 +1,6 @@
 {
   "name": "@bestend/confluence-cli",
-  "version": "1.15.2",
+  "version": "1.15.4",
   "description": "A command-line interface for Atlassian Confluence with page creation and editing capabilities",
   "main": "index.js",
   "bin": {

@@ -141,7 +141,7 @@ describe('ConfluenceClient', () => {
       
       expect(result).toContain('<ac:structured-macro ac:name="code">');
       expect(result).toContain('<ac:parameter ac:name="language">javascript</ac:parameter>');
-      expect(result).toContain('console.log(&quot;Hello World&quot;);');
+      expect(result).toContain('console.log("Hello World");');
     });
 
     test('should convert lists to native Confluence format', () => {
@@ -171,12 +171,11 @@ describe('ConfluenceClient', () => {
       expect(result).toContain('<td><p>Cell 1</p></td>');
     });
 
-    test('should convert links to Confluence link format', () => {
+    test('should keep links as standard HTML anchors', () => {
       const markdown = '[Example Link](https://example.com)';
       const result = client.markdownToStorage(markdown);
       
-      expect(result).toContain('<ac:link>');
-      expect(result).toContain('ri:value="https://example.com"');
+      expect(result).toContain('<a href="https://example.com">');
       expect(result).toContain('Example Link');
     });
   });
