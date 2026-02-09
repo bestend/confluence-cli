@@ -146,6 +146,8 @@ program
   .option('-f, --file <file>', 'Read content from file')
   .option('-c, --content <content>', 'Page content as string')
   .option('--format <format>', 'Content format (storage, html, markdown)', 'storage')
+  .option('--validate-storage', 'Validate storage content (XML well-formed) before sending')
+  .option('--no-sanitize-storage', 'Disable auto-escaping raw ampersands in storage format')
   .action(async (title, spaceKey, options) => {
     const analytics = new Analytics();
     try {
@@ -166,7 +168,10 @@ program
         throw new Error('Either --file or --content option is required');
       }
       
-      const result = await client.createPage(title, spaceKey, content, options.format);
+      const result = await client.createPage(title, spaceKey, content, options.format, {
+        validateStorage: options.validateStorage,
+        sanitizeStorage: options.sanitizeStorage
+      });
       
       console.log(chalk.green('✅ Page created successfully!'));
       console.log(`Title: ${chalk.blue(result.title)}`);
@@ -189,6 +194,10 @@ program
   .option('-f, --file <file>', 'Read content from file')
   .option('-c, --content <content>', 'Page content as string')
   .option('--format <format>', 'Content format (storage, html, markdown)', 'storage')
+  .option('--validate-storage', 'Validate storage content (XML well-formed) before sending')
+  .option('--no-sanitize-storage', 'Disable auto-escaping raw ampersands in storage format')
+  .option('--validate-storage', 'Validate storage content (XML well-formed) before sending')
+  .option('--no-sanitize-storage', 'Disable auto-escaping raw ampersands in storage format')
   .action(async (title, parentId, options) => {
     const analytics = new Analytics();
     try {
@@ -213,7 +222,10 @@ program
         throw new Error('Either --file or --content option is required');
       }
       
-      const result = await client.createChildPage(title, spaceKey, parentId, content, options.format);
+      const result = await client.createChildPage(title, spaceKey, parentId, content, options.format, {
+        validateStorage: options.validateStorage,
+        sanitizeStorage: options.sanitizeStorage
+      });
       
       console.log(chalk.green('✅ Child page created successfully!'));
       console.log(`Title: ${chalk.blue(result.title)}`);
@@ -238,6 +250,8 @@ program
   .option('-f, --file <file>', 'Read content from file')
   .option('-c, --content <content>', 'Page content as string')
   .option('--format <format>', 'Content format (storage, html, markdown)', 'storage')
+  .option('--validate-storage', 'Validate storage content (XML well-formed) before sending')
+  .option('--no-sanitize-storage', 'Disable auto-escaping raw ampersands in storage format')
   .action(async (pageId, options) => {
     const analytics = new Analytics();
     try {
@@ -261,7 +275,10 @@ program
         content = options.content;
       }
       
-      const result = await client.updatePage(pageId, options.title, content, options.format);
+      const result = await client.updatePage(pageId, options.title, content, options.format, {
+        validateStorage: options.validateStorage,
+        sanitizeStorage: options.sanitizeStorage
+      });
       
       console.log(chalk.green('✅ Page updated successfully!'));
       console.log(`Title: ${chalk.blue(result.title)}`);
