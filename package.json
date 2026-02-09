@@ -1,6 +1,6 @@
 {
-  "name": "confluence-cli",
-  "version": "1.15.0",
+  "name": "@bestend/confluence-cli",
+  "version": "1.15.2",
   "description": "A command-line interface for Atlassian Confluence with page creation and editing capabilities",
   "main": "index.js",
   "bin": {
@@ -48,10 +48,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pchuri/confluence-cli.git"
+    "url": "git+https://github.com/bestend/confluence-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/pchuri/confluence-cli/issues"
+    "url": "https://github.com/bestend/confluence-cli/issues"
   },
-  "homepage": "https://github.com/pchuri/confluence-cli#readme"
+  "homepage": "https://github.com/bestend/confluence-cli#readme"
 }

@@ -20,12 +20,12 @@ A powerful command-line interface for Atlassian Confluence that allows you to re
 ## Installation
 
 ```bash
-npm install -g confluence-cli
+npm install -g @bestend/confluence-cli@1.15.2
 ```
 
 Or run directly with npx:
 ```bash
-npx confluence-cli
+npx @bestend/confluence-cli@1.15.2
 ```
 
 ## Quick Start
