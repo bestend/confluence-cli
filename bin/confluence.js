@@ -141,11 +141,12 @@ program
 
 // Create command
 program
-  .command('create <title> <spaceKey>')
+  .command('create <title> [spaceKey]')
   .description('Create a new Confluence page')
   .option('-f, --file <file>', 'Read content from file')
   .option('-c, --content <content>', 'Page content as string')
   .option('--format <format>', 'Content format (storage, html, markdown)', 'storage')
+  .option('--parent <parentId>', 'Parent page ID (creates page as child of this page)')
   .option('--validate-storage', 'Validate storage content (XML well-formed) before sending')
   .option('--no-sanitize-storage', 'Disable auto-escaping raw ampersands in storage format')
   .action(async (title, spaceKey, options) => {
@@ -168,14 +169,30 @@ program
         throw new Error('Either --file or --content option is required');
       }
       
-      const result = await client.createPage(title, spaceKey, content, options.format, {
-        validateStorage: options.validateStorage,
-        sanitizeStorage: options.sanitizeStorage
-      });
-      
-      console.log(chalk.green('✅ Page created successfully!'));
-      console.log(`Title: ${chalk.blue(result.title)}`);
-      console.log(`ID: ${chalk.blue(result.id)}`);
+      let result;
+      if (options.parent) {
+        const parentInfo = await client.getPageInfo(options.parent);
+        const derivedSpaceKey = parentInfo.space.key;
+        result = await client.createChildPage(title, derivedSpaceKey, options.parent, content, options.format, {
+          validateStorage: options.validateStorage,
+          sanitizeStorage: options.sanitizeStorage
+        });
+        console.log(chalk.green('✅ Page created successfully!'));
+        console.log(`Title: ${chalk.blue(result.title)}`);
+        console.log(`ID: ${chalk.blue(result.id)}`);
+        console.log(`Parent: ${chalk.blue(parentInfo.title)} (${options.parent})`);
+      } else {
+        if (!spaceKey) {
+          throw new Error('Space key is required when --parent is not specified');
+        }
+        result = await client.createPage(title, spaceKey, content, options.format, {
+          validateStorage: options.validateStorage,
+          sanitizeStorage: options.sanitizeStorage
+        });
+        console.log(chalk.green('✅ Page created successfully!'));
+        console.log(`Title: ${chalk.blue(result.title)}`);
+        console.log(`ID: ${chalk.blue(result.id)}`);
+      }
       console.log(`Space: ${chalk.blue(result.space.name)} (${result.space.key})`);
       console.log(`URL: ${chalk.gray(`https://${config.domain}/wiki${result._links.webui}`)}`);
       
