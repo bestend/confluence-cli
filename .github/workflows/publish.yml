@@ -35,4 +35,4 @@ jobs:
         run: npm ci
 
       - name: Publish with provenance via OIDC
-        run: npm publish --provenance --access public
+        run: npm publish --provenance --access public --tag latest
